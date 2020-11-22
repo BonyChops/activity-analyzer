@@ -93,11 +93,8 @@ client.on('message', msg => {
             if (member.presence.activities.length > 0) {
                 try {
                     msg.reply(
-                        `${name}さん，その調子！いまプレイしている**${member.presence.activities[0].name}**(__${moment(member.presence.activities[0].timestamps.start).format("HH:mm")}__〜)はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
+                        `${name}さん，その調子！いまプレイしている${member.presence.activities.map(activity => `**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`).join(", ")}はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
                     )
-/*                     msg.reply(
-                        `${name}さん，その調子！いまプレイしている**${member.presence.activities}__〜)はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
-                    ) */
                 } catch (error) {
                     console.error(error);
                     msg.reply(
