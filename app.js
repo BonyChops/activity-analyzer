@@ -1,5 +1,5 @@
-const moment = require("moment");
-moment.locale('jp');
+const moment = require("moment/min/moment-with-locales");
+moment.locale('ja');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const developToolName = ["Visual Studio", "Eclipse", "Jet Brains", "iTerm"];

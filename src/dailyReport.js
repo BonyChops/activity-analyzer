@@ -1,5 +1,5 @@
-const moment = require("moment");
-
+const moment = require("moment/min/moment-with-locales");
+moment.locale('ja');
 exports.dailyReport = (msg, command, savedData) => {
     const isDM = msg.channel.type === "dm";
     const member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : undefined;
