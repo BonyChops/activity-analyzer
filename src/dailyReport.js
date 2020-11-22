@@ -147,34 +147,34 @@ exports.dailyReport = (msg, command, savedData) => {
     const sendTo = !command.public ? msg.author : msg.channel;
     const estimatedTimeFields = [{
         name: "合計",
-        value: estimatedM > 60 ? (estimatedM / 60).toPrecision(3) + "時間" : estimatedM + "分",
+        value: estimatedM >= 60 ? (estimatedM / 60).toPrecision(3) + "時間" : estimatedM + "分",
         inline: true
     }];
     if (estimatedDevelopM > 0) {
         estimatedTimeFields.push({
             name: "合計開発時間",
-            value: estimatedDevelopM > 60 ? (estimatedDevelopM / 60).toPrecision(3) + "時間" : estimatedDevelopM + "分",
+            value: estimatedDevelopM >= 60 ? (estimatedDevelopM / 60).toPrecision(3) + "時間" : estimatedDevelopM + "分",
             inline: true
         })
     }
     if (estimatedListeningM > 0) {
         estimatedTimeFields.push({
             name: "合計鑑賞時間",
-            value: estimatedListeningM > 60 ? (estimatedListeningM / 60).toPrecision(3) + "時間" : estimatedListeningM + "分",
+            value: estimatedListeningM >= 60 ? (estimatedListeningM / 60).toPrecision(3) + "時間" : estimatedListeningM + "分",
             inline: true
         })
     }
     if (estimatedStreamingM > 0) {
         estimatedTimeFields.push({
             name: "合計配信時間",
-            value: estimatedStreamingM > 60 ? (estimatedStreamingM / 60).toPrecision(3) + "時間" : estimatedStreamingM + "分",
+            value: estimatedStreamingM >= 60 ? (estimatedStreamingM / 60).toPrecision(3) + "時間" : estimatedStreamingM + "分",
             inline: true
         })
     }
     if (estimatedGamingM > 0) {
         estimatedTimeFields.push({
             name: "**_ESTIMATED GAMING TIME_**",
-            value: estimatedGamingM > 60 ? (estimatedGamingM / 60).toPrecision(3) + "時間" : estimatedGamingM + "分",
+            value: estimatedGamingM >= 60 ? (estimatedGamingM / 60).toPrecision(3) + "時間" : estimatedGamingM + "分",
             inline: true
         })
     }

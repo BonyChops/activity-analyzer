@@ -162,7 +162,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
         finishedAct.forEach(finActivity => {
             if(moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "hours") > 3 && finActivity.type !== "LISTENING"){
                 prettyLongTask = finActivity.name;
-            }else if (moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "minutes") > 1 /*&& finActivity.type !== "LISTENING"*/) {
+            }else if (moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "hours") > 1 && finActivity.type !== "LISTENING") {
                 longTask = finActivity.name;
             }
             let updateTarget = userData.activities.find(dataAct => {
