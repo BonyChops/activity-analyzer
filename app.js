@@ -1,4 +1,5 @@
 const moment = require("moment");
+moment.locale('jp');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const developToolName = ["Visual Studio", "Eclipse", "Jet Brains", "iTerm"];
@@ -109,6 +110,8 @@ client.on('message', msg => {
             }
         } else if (command.mode === "daily") {
             dailyReport(msg, command, savedData);
+        } else if (command.mode === "weekly") {
+            weeklyReport(msg, command, savedData);
         } else {
             msg.reply(
                 `\`\`\`不正なコマンドです(${command.mode})．
@@ -160,9 +163,9 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
         let longTask = false;
         let prettyLongTask = false;
         finishedAct.forEach(finActivity => {
-            if(moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "hours") > 3 && finActivity.type !== "LISTENING"){
+            if (moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "hours") > 3 && finActivity.type !== "LISTENING") {
                 prettyLongTask = finActivity.name;
-            }else if (moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "hours") > 1 && finActivity.type !== "LISTENING") {
+            } else if (moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "hours") > 1 && finActivity.type !== "LISTENING") {
                 longTask = finActivity.name;
             }
             let updateTarget = userData.activities.find(dataAct => {

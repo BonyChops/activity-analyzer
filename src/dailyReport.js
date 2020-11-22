@@ -88,9 +88,12 @@ exports.dailyReport = (msg, command, savedData) => {
     const fields = targetActivity.reduce((acc, field, index) => {
         let result = acc;
         if (musicCache.end !== undefined && (moment(field.timestamps.start).diff(musicCache.end, "minutes") > 2 || field.name !== "Spotify")) {
-            const artistsStr = musicCache.artists.map((artist) => {
+            /* const artistsStr = musicCache.artists.map((artist) => {
                 return "[" + artist.songs.join(",\n") + "] - " + artist.name;
-            }).join(",\n");
+            }).join(",\n"); */
+            const artistsStr = musicCache.artists.map((artist) => {
+                return artist.name+`(${artist.songs.length})`;
+            }).join(", ");
             const diffH = musicCache.end.diff(musicCache.start, "hours");
             const diffM = musicCache.end.diff(musicCache.start, "minutes");
             result.push({
@@ -117,10 +120,12 @@ exports.dailyReport = (msg, command, savedData) => {
                 })
             }
             if (index + 1 === targetActivity.length) {
-                const artistsStr = musicCache.artists.map((artist) => {
+/*                 const artistsStr = musicCache.artists.map((artist) => {
                     return "[" + artist.songs.join(",\n") + "] - " + artist.name;
-                }).join(",\n");
-
+                }).join(",\n"); */
+                const artistsStr = musicCache.artists.map((artist) => {
+                    return artist.name+`(${artist.songs.length})`;
+                }).join(", ");
                 const diffH = musicCache.end.diff(musicCache.start, "hours");
                 const diffM = musicCache.end.diff(musicCache.start, "minutes");
                 result.push({
