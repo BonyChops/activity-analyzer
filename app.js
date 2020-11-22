@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
 const dailyReport = require('./src/dailyReport').dailyReport;
+const weeklyReport = require('./src/weeklyReport').weeklyReport;
 const {
     start
 } = require("repl");
@@ -76,8 +77,6 @@ client.on('message', msg => {
         if (command.user === undefined) {
             command.user = msg.author.id;
         }
-        console.log(msg.guild.members.cache.find(member => member.id == msg.author.id).permissions.any("ADMINISTRATOR"));
-        console.log("↑");
         let member;
         let name;
         try {
@@ -93,7 +92,7 @@ client.on('message', msg => {
             if (member.presence.activities.length > 0) {
                 try {
                     msg.reply(
-                        `\`\`\`${name}さん，その調子！いまプレイしている**${member.presence.activities[0].name}**(__${moment(member.presence.activities[0].timestamps.start).format("HH:mm")}__〜)はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)\`\`\``
+                        `${name}さん，その調子！いまプレイしている**${member.presence.activities[0].name}**(__${moment(member.presence.activities[0].timestamps.start).format("HH:mm")}__〜)はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
                     )
                 } catch (error) {
                     console.error(error);
