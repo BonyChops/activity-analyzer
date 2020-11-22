@@ -19,7 +19,7 @@ exports.dailyReport = (msg, command, savedData) => {
         msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
         return;
     }
-    const userData = savedData.personal.find(data => data.id === member.id);
+    const userData = savedData.personal.find(data => data.id === user.id);
     const targetActivity = userData.activities.filter(activity => {
         const timestamps = activity.timestamps;
         const startAt = moment(timestamps.start);
