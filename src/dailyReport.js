@@ -94,13 +94,13 @@ exports.dailyReport = (msg, command, savedData) => {
             const artistsStr = musicCache.artists.map((artist) => {
                 return acc + artist.name + "(" + artist.songs.join(", ") + ")";
             }).join(",\n");
-            console.log(artistsStr);
             const diffH = musicCache.end.diff(musicCache.start, "hours");
             const diffM = musicCache.end.diff(musicCache.start, "minutes");
             result.push({
                 name: `${musicCache.start.format("HH:mm")} 〜 ${musicCache.end.format("HH:mm")} (${diffH >= 1 ? diffH + "時間" : diffM + "分"})`,
                 value: "```\nSpotify\n" + artistsStr + "```",
             });
+            console.log(musicCache);
             musicCache = {};
         }
         if (field.name === "Spotify") {
@@ -145,7 +145,6 @@ exports.dailyReport = (msg, command, savedData) => {
         }
         return result;
     }, [])
-    console.log(fields);
     const sendTo = !command.public ? msg.author : msg.channel;
     const estimatedTimeFields = [{
         name: "合計",
