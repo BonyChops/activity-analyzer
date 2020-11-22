@@ -89,7 +89,7 @@ exports.dailyReport = (msg, command, savedData) => {
         let result = acc;
         if (musicCache.end !== undefined && (moment(field.timestamps.start).diff(musicCache.end, "minutes") > 2 || field.name !== "Spotify")) {
             const artistsStr = musicCache.artists.map((artist) => {
-                return acc + artist.name + "(" + artist.songs.join(", ") + ")";
+                return "[" + artist.songs.join(", ") + "] - " + artist.name;
             }).join(",\n");
             const diffH = musicCache.end.diff(musicCache.start, "hours");
             const diffM = musicCache.end.diff(musicCache.start, "minutes");
@@ -116,7 +116,7 @@ exports.dailyReport = (msg, command, savedData) => {
             }
             if (index + 1 === targetActivity.length) {
                 const artistsStr = musicCache.artists.map((artist) => {
-                    return acc + artist.name + "(" + artist.songs.join(", ") + ")";
+                    return "[" + artist.songs.join(", ") + "] - " + artist.name;
                 }).join(",\n");
 
                 const diffH = musicCache.end.diff(musicCache.start, "hours");
