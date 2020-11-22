@@ -2,6 +2,7 @@ const moment = require("moment");
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
+const dailyReport = require('./src/dailyReport').dailyReport;
 const {
     start
 } = require("repl");
@@ -27,59 +28,87 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.author.id == client.user.id) return;
+    const isDM = msg.channel.type === "dm";
     const commandStr = msg.content.split(" ");
     let command = {
         command: commandStr[0],
         user: undefined,
         public: false
     }
-    for (let index = 1; index < commandStr.length; index++) {
-        const param = [null, "mode", "dates"];
+    console.log(commandStr)
+
+    if (command.command === '!analyze') {
         let sp = 0;
-        switch (commandStr[index]) {
-            case "--user":
-                if (index === commandStr.length - 1) {
-                    msg.reply("Error:");
-                    return;
-                }
-                command.user = commandStr[index + 1];
-                sp += 2;
-                break;
-            case "--public":
-                command.public = true;
-                sp += 1;
-                break;
+        for (let index = 1; index < commandStr.length; index++) {
+            const param = [null, "mode", "dates"];
+            switch (commandStr[index]) {
+                case "--user":
+                    if (isDM) {
+                        msg.reply("エラー: --userはDMでは使用できません．");
+                        return;
+                    }
+                    if (!msg.guild.members.cache.find(member => member.id == msg.author.id).permissions.any("ADMINISTRATOR")) {
+                        msg.reply("エラー: 鯖の管理者以外は--userを使用することはできません");
+                        return;
+                    }
+                    if (index === commandStr.length - 1) {
+                        msg.reply("Error:");
+                        return;
+                    }
+                    command.user = commandStr[index + 1];
+                    index += 1;
+                    sp += 2;
+                    break;
+                case "--public":
+                    if (isDM) {
+                        msg.reply("エラー: --publicはDMでは使用できません．");
+                        return;
+                    }
+                    command.public = true;
+                    sp += 1;
+                    break;
 
-            default:
-                command[param[index - sp]] = commandStr[index];
-                break;
+                default:
+                    command[param[index - sp]] = commandStr[index];
+                    break;
+            }
         }
-    }
-    if (command.user === undefined) {
-        command.user = msg.author.id;
-    }
-
-    let member;
-    let name;
-    const isDM = msg.channel.type === "dm";
-    try {
-        member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : msg.author
-        name = member.nickname !== null ? member.nickname : !isDM ? msg.guild.members.cache.find(member => member.id == command.user).user.username : msg.author.id;
-    } catch (error) {
-        console.error(error);
-        msg.reply("エラー: ユーザが見つかりませんでした．");
-        return;
-    }
-
-
-    if (command.command === '!report') {
+        if (command.user === undefined) {
+            command.user = msg.author.id;
+        }
+        console.log(msg.guild.members.cache.find(member => member.id == msg.author.id).permissions.any("ADMINISTRATOR"));
+        console.log("↑");
+        let member;
+        let name;
+        try {
+            member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : msg.author
+            name = member.nickname !== null ? member.nickname : !isDM ? msg.guild.members.cache.find(member => member.id == command.user).user.username : msg.author.username;
+        } catch (error) {
+            console.error(error);
+            msg.reply("エラー: ユーザが見つかりませんでした．");
+            return;
+        }
         let data = [];
         if (!savedData.personal.some(data => data.id === command.user)) {
-            msg.reply(
-                `\`\`\`${name}さんのデータはまだないみたいです．ゲーム，開発，なんでもやってみよう！\`\`\``
-            )
+            if (member.presence.activities.length > 0) {
+                try {
+                    msg.reply(
+                        `\`\`\`${name}さん，その調子！いまプレイしている**${member.presence.activities[0].name}**(__${moment(member.presence.activities[0].timestamps.start).format("HH:mm")}__〜)はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)\`\`\``
+                    )
+                } catch (error) {
+                    console.error(error);
+                    msg.reply(
+                        "ごめんなさい...なにか内部エラーがあったみたいです...\n" + "```＊ 悲しいね...```"
+                    )
+                }
+
+            } else {
+                msg.reply(
+                    `\`\`\`${name}さんのデータはまだないみたいです．ゲーム，開発，なんでもやってみよう！\`\`\``
+                )
+            }
         } else if (command.mode === "daily") {
-            dailyReport(msg, command);
+            dailyReport(msg, command, savedData);
         } else {
             msg.reply(
                 `\`\`\`不正なコマンドです(${command.mode})．
@@ -93,63 +122,6 @@ client.on('message', msg => {
         }
     }
 });
-
-const dailyReport = (msg, command) => {
-    const isDM = msg.channel.type === "dm";
-    const member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user).user : msg.author;
-    let time;
-    try {
-        time = command.dates === undefined ? moment() : moment(command[2]);
-    } catch (error) {
-        msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
-        return;
-    }
-    const userData = savedData.personal.find(data => data.id === member.id);
-    const targetActivity = userData.activities.filter(activity => {
-        const timestamps = activity.timestamps;
-        const startAt = moment(timestamps.start);
-        const endAt = moment(timestamps.end);
-        return (
-            startAt.format("YYYY-MM-DD") === endAt.format("YYYY-MM-DD")
-        )
-    });
-    const estimatedM = targetActivity.reduce((acc, activity) => {
-        const timestamps = activity.timestamps;
-        const startAt = moment(timestamps.start);
-        const endAt = moment(timestamps.end);
-        const diffM = endAt.diff(startAt, "minutes");
-        return acc + diffM;
-    }, 0);
-    const fields = targetActivity.map(field => {
-        const timestamps = field.timestamps;
-        const startAt = moment(timestamps.start);
-        const endAt = moment(timestamps.end);
-        const diffH = endAt.diff(startAt, "hours");
-        const diffM = endAt.diff(startAt, "minutes");
-        const isVSCode = field.applicationID === "383226320970055681";
-        return {
-            name: `${startAt.format("HH:mm")} 〜 ${endAt.format("HH:mm")} (${diffH >= 1 ? diffH + "時間" : diffM + "分"})`,
-            value: "```" + (isVSCode ? field.name + "\n" + field.state + "\n" : field.name) + "```",
-        }
-    })
-    const sendTo = !command.public ? msg.author : msg.channel;
-    sendTo.send({
-        embed: {
-            title: `デイリーレポート (${time.format("MM/DD")})`,
-            description: `お疲れ様！${time.format("MM/DD")}のレポートです`,
-            color: 7506394,
-            timestamp: new Date(),
-            thumbnail: {
-                url: member.avatarURL()
-            },
-            fields: [{
-                name: "合計",
-                value: estimatedM > 60 ? (estimatedM / 60).toPrecision(3) + "時間" : estimatedM + "分"
-            }].concat(fields)
-        }
-    });
-    if (!isDM) msg.react("✅");
-}
 
 
 client.on('presenceUpdate', async (oldUser, newUser) => {
