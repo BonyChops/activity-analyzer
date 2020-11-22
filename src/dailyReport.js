@@ -192,7 +192,7 @@ exports.dailyReport = (msg, command, savedData) => {
             fields: estimatedTimeFields.concat(fields)
         }
     });
-    if (member.presence.activities.length > 0) {
+    if (!isDM && member.presence.activities.length > 0) {
         sendTo.send({
             embed: {
                 title: `ヒント:`,
