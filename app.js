@@ -123,7 +123,7 @@ client.on('message', msg => {
             msg.reply("消したナリ");
         } else {
             msg.reply(
-                `\`\`\`不正なコマンドです(${command.mode})．
+                `\`\`\`．
 例:
 - !analyze daily
 - !analyze daily ${moment().format("YYYY-MM-DD")}
