@@ -84,7 +84,7 @@ client.on('message', msg => {
         let name;
         try {
             member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : msg.author
-            name = member.nickname !== null ? member.nickname : !isDM ? msg.guild.members.cache.find(member => member.id == command.user).user.username : msg.author.username;
+            name = !isDM ? member.nickname !== null ? member.nickname : msg.guild.members.cache.find(member => member.id == command.user).user.username : msg.author.username;
         } catch (error) {
             console.error(error);
             msg.reply("エラー: ユーザが見つかりませんでした．");
