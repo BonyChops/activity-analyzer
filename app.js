@@ -32,6 +32,7 @@ client.on('ready', () => {
 client.on('message', msg => {
     if (msg.author.id == client.user.id) return;
     const isDM = msg.channel.type === "dm";
+    const isAdmin = !isDM && msg.guild.members.cache.find(member => member.id == msg.author.id).permissions.any("ADMINISTRATOR");
     const commandStr = msg.content.split(" ");
     let command = {
         command: commandStr[0],
@@ -50,7 +51,7 @@ client.on('message', msg => {
                         msg.reply("エラー: --userはDMでは使用できません．");
                         return;
                     }
-                    if (!msg.guild.members.cache.find(member => member.id == msg.author.id).permissions.any("ADMINISTRATOR")) {
+                    if (!isAdmin) {
                         msg.reply("エラー: 鯖の管理者以外は--userを使用することはできません");
                         return;
                     }
@@ -112,6 +113,14 @@ client.on('message', msg => {
             dailyReport(msg, command, savedData);
         } else if (command.mode === "weekly") {
             weeklyReport(msg, command, savedData);
+        } else if (command.mode === "deleteAll") {
+            if (!isAdmin) {
+                msg.reply("エラー: 管理者のみ実行可能です");
+                return;
+            }
+            savedData.personal = savedData.personal.filter(data => data.id != member.id);
+            saveData(savedData);
+            msg.reply("消したナリ");
         } else {
             msg.reply(
                 `\`\`\`不正なコマンドです(${command.mode})．
