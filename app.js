@@ -26,7 +26,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    if(msg.author.id == client.user.id) return;
+    if (msg.author.id == client.user.id) return;
     const commandStr = msg.content.split(" ");
     let command = {
         command: commandStr[0],
@@ -165,7 +165,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
                 ) || */
                 (
                     oldActivity.applicationID === newActivity.applicationID &&
-                    oldActivity.timestamps.start === newActivity.timestamps.start
+                    moment(oldActivity.timestamps.start).isSame(newActivity.timestamps.start)
                 )
             )
         })
@@ -189,12 +189,16 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
             let updateTarget = userData.activities.find(dataAct => {
                 return (
                     dataAct.applicationID == finActivity.applicationID &&
-                    dataAct.timestamps.start === finActivity.timestamps.start
+                    moment(dataAct.timestamps.start).isSame(finActivity.timestamps.start)
                 )
             });
             if (updateTarget === undefined) {
+                console.log(finActivity.applicationID);
+                console.log(finActivity.timestamps.start);
+                console.log("not found")
                 userData.activities.push(finActivity);
             } else {
+                console.log("found")
                 updateTarget = finActivity;
             }
         })
