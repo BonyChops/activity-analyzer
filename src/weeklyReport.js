@@ -39,7 +39,7 @@ exports.weeklyReport = (msg, command, savedData) => {
         const diffM = endAt.diff(startAt, "minutes");
         weeklyEstimatedTimes[startAt.diff(time, "days")].total += diffM;
         weeklyEstimatedTimes[7].total += diffM;
-        if (activity.type === "CUSTOM_STATUS" && developToolName.some(name => activity.name.toLowerCase().indexOf(name.toLowerCase()) !== -1)) {
+        if (activity.type !== "CUSTOM_STATUS" && developToolName.some(name => activity.name.toLowerCase().indexOf(name.toLowerCase()) !== -1)) {
             weeklyEstimatedTimes[startAt.diff(time, "days")].develop += diffM;
             weeklyEstimatedTimes[7].develop += diffM;
         } else if (activity.type === "LISTENING" || activity.type === "WATCHING") {
@@ -61,11 +61,11 @@ exports.weeklyReport = (msg, command, savedData) => {
             return acc;
         }
         let arr = [];
-        arr.push("**合計時間**: " + activity.total);
-        if (activity.develop > 0) arr.push("**合計開発時間**: " + activity.develop);
-        if (activity.listening > 0) arr.push("**合計視聴時間**: " + activity.listening);
-        if (activity.streaming > 0) arr.push("**合計配信時間**: " + activity.streaming);
-        if (activity.gaming > 0) arr.push("**_ESTIMATED GAMING TIME_**: " + activity.gaming);
+        arr.push("**合計時間**: " + activity.total > 60 ? (activity.total / 60).toPrecision(3) + "時間" : activity.total + "分");
+        if (activity.develop > 0) arr.push("**合計開発時間**: " + activity.develop > 60 ? (activity.develop / 60).toPrecision(3) + "時間" : activity.develop + "分");
+        if (activity.listening > 0) arr.push("**合計視聴時間**: " + activity.listening > 60 ? (activity.listening / 60).toPrecision(3) + "時間" : activity.listening + "分");
+        if (activity.streaming > 0) arr.push("**合計配信時間**: " + activity.streaming > 60 ? (activity.streaming / 60).toPrecision(3) + "時間" : activity.streaming + "分");
+        if (activity.gaming > 0) arr.push("**_ESTIMATED GAMING TIME_**: " + activity.gaming > 60 ? (activity.gaming / 60).toPrecision(3) + "時間" : activity.gaming + "分");
         const value = arr.join(",\n");
         console.log(index);
         acc.push({
