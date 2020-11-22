@@ -138,7 +138,7 @@ exports.dailyReport = (msg, command, savedData) => {
             const isVSCode = field.applicationID === "383226320970055681";
             result.push({
                 name: `${startAt.format("HH:mm")} 〜 ${endAt.format("HH:mm")} (${diffH >= 1 ? diffH + "時間" : diffM + "分"})`,
-                value: "```" + (isVSCode ? field.name + "\n" + field.state + "\n" : field.name) + "```",
+                value: "```" + (isVSCode ? field.name + "\n" + field.state  : field.name + "\n" + field.details ) + "```",
             });
 
         }
