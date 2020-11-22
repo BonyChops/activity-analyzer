@@ -1,0 +1,28 @@
+{
+  "name": "activity-analyzer",
+  "version": "1.0.0",
+  "description": "Check your daily, weekly, and monthly activity and report it for you in Discord",
+  "main": "index.js",
+  "dependencies": {
+    "canvas": "^2.6.1",
+    "discord.js": "^12.4.1",
+    "moment": "^2.29.1",
+    "node-cron": "^2.0.3"
+  },
+  "devDependencies": {
+    "firebase": "^8.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BonyChops/activity-analyzer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BonyChops/activity-analyzer/issues"
+  },
+  "homepage": "https://github.com/BonyChops/activity-analyzer#readme"
+}
