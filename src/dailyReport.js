@@ -5,7 +5,6 @@ exports.dailyReport = (msg, command, savedData) => {
     const member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : undefined;
     const user = !isDM ? member.user : msg.author;
     const name = !isDM ? member.nickname !== null ? member.nickname : msg.guild.members.cache.find(member => member.id == command.user).user.username : msg.author.username;
-    console.log(msg.author.username)
     let time;
     try {
         time = command.dates === undefined ? moment() : moment(command.dates);
@@ -14,7 +13,6 @@ exports.dailyReport = (msg, command, savedData) => {
         msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
         return;
     }
-    console.log(command.dates)
     if (time == "Invalid date") {
         msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
         return;
@@ -89,8 +87,7 @@ exports.dailyReport = (msg, command, savedData) => {
     let musicCache = {};
     const fields = targetActivity.reduce((acc, field, index) => {
         let result = acc;
-        console.log(result)
-        if (musicCache.end !== undefined && (moment(field.timestamps.start).diff(musicCache.end, "minutes") < 2 || field.name !== "Spotify")) {
+        if (musicCache.end !== undefined && (moment(field.timestamps.start).diff(musicCache.end, "minutes") > 2 || field.name !== "Spotify")) {
             const artistsStr = musicCache.artists.map((artist) => {
                 return acc + artist.name + "(" + artist.songs.join(", ") + ")";
             }).join(",\n");
@@ -151,7 +148,6 @@ exports.dailyReport = (msg, command, savedData) => {
         value: estimatedM > 60 ? (estimatedM / 60).toPrecision(3) + "時間" : estimatedM + "分",
         inline: true
     }];
-    console.log(estimatedDevelopM);
     if (estimatedDevelopM > 0) {
         estimatedTimeFields.push({
             name: "合計開発時間",
