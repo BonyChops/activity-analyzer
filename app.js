@@ -95,6 +95,9 @@ client.on('message', msg => {
                     msg.reply(
                         `${name}さん，その調子！いまプレイしている**${member.presence.activities[0].name}**(__${moment(member.presence.activities[0].timestamps.start).format("HH:mm")}__〜)はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
                     )
+/*                     msg.reply(
+                        `${name}さん，その調子！いまプレイしている**${member.presence.activities}__〜)はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
+                    ) */
                 } catch (error) {
                     console.error(error);
                     msg.reply(
@@ -183,11 +186,11 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
         })
         if (prettyLongTask !== false) {
             const isDevelop = (developToolName.some(name => prettyLongTask.toLowerCase().indexOf(name.toLowerCase()) !== -1))
-            newUser.user.send("こんにちは！BonyAnalyzerです．超々長時間に渡る" + (isDevelop ? "開発" : prettyLongTask) + "，本当にお疲れ様です...長時間画面と向き合った後は，10分ぐらい目を休めることをおすすめします．\n(ここの画面で`!analyze daily`と入力すると今日の進捗，進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
+            newUser.user.send("こんにちは！BonyAnalyzerです．超々長時間に渡る" + (isDevelop ? "開発" : prettyLongTask) + "，本当にお疲れ様です...\n長時間画面と向き合った後は，10分ぐらい目を休めることをおすすめします．\n(ここの画面で`!analyze daily`と入力すると今日の進捗，\n進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
             userData.finishedFirstPrompt = true;
         }
         if (longTask !== false && userData.finishedFirstPrompt !== true) {
-            newUser.user.send("こんにちは！BonyAnalyzerです．長時間に渡る" + longTask + "お疲れ様でした...！ぜひここで今日の進捗を確認してみませんか？ここの画面で`!analyze daily`と入力すると，今日の進捗を確認できます．\n(進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
+            newUser.user.send("こんにちは！BonyAnalyzerです．長時間に渡る" + longTask + "お疲れ様でした...！\nぜひここで今日の進捗を確認してみませんか？\nここの画面で`!analyze daily`と入力すると，今日の進捗を確認できます．\n(進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
             userData.finishedFirstPrompt = true;
         }
         saveData(savedData);
