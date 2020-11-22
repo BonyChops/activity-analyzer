@@ -72,7 +72,6 @@ exports.dailyReport = (msg, command, savedData) => {
         const diffM = endAt.diff(startAt, "minutes");
         return acc + diffM;
     }, 0);
-    let musicCache = {};
     const estimatedGamingM = targetActivity.reduce((acc, activity) => {
         if (activity.type !== "PLAYING") {
             return acc;
@@ -87,6 +86,7 @@ exports.dailyReport = (msg, command, savedData) => {
         return acc + diffM;
     }, 0);
 
+    let musicCache = {};
     const fields = targetActivity.reduce((acc, field, index) => {
         let result = acc;
         console.log(result)
@@ -144,6 +144,7 @@ exports.dailyReport = (msg, command, savedData) => {
         }
         return result;
     }, [])
+    console.log(fields);
     const sendTo = !command.public ? msg.author : msg.channel;
     const estimatedTimeFields = [{
         name: "合計",
