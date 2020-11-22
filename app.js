@@ -1,6 +1,7 @@
 const moment = require("moment");
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const developToolName = ["Visual Studio", "Eclipse", "Jet Brains", "iTerm"];
 const fs = require('fs');
 const dailyReport = require('./src/dailyReport').dailyReport;
 const weeklyReport = require('./src/weeklyReport').weeklyReport;
@@ -112,10 +113,10 @@ client.on('message', msg => {
             msg.reply(
                 `\`\`\`不正なコマンドです(${command.mode})．
 例:
-- !report daily
-- !report daily ${moment().format("YYYY-MM-DD")}
-- !report weekly
-- !report weekly ${moment().format("YYYY-MM-DD")} #指定した日時が含まれる週を選択します
+- !analyze daily
+- !analyze daily ${moment().format("YYYY-MM-DD")}
+- !analyze weekly
+- !analyze weekly ${moment().format("YYYY-MM-DD")} #指定した日時が含まれる週を選択します
 \`\`\``
             )
         }
@@ -156,7 +157,14 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
             act.timestamps.end = moment().format();
         })
         //Array.prototype.push.apply(userData.activities, finishedAct);
+        let longTask = false;
+        let prettyLongTask = false;
         finishedAct.forEach(finActivity => {
+            if(moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "hours") > 3 && finActivity.type !== "LISTENING"){
+                prettyLongTask = finActivity.name;
+            }else if (moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "minutes") > 1 /*&& finActivity.type !== "LISTENING"*/) {
+                longTask = finActivity.name;
+            }
             let updateTarget = userData.activities.find(dataAct => {
                 return (
                     dataAct.applicationID == finActivity.applicationID &&
@@ -173,9 +181,17 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
                 updateTarget = finActivity;
             }
         })
-
-
+        if (prettyLongTask !== false) {
+            const isDevelop = (developToolName.some(name => prettyLongTask.toLowerCase().indexOf(name.toLowerCase()) !== -1))
+            newUser.user.send("こんにちは！BonyAnalyzerです．超々長時間に渡る" + (isDevelop ? "開発" : prettyLongTask) + "，本当にお疲れ様です...長時間画面と向き合った後は，10分ぐらい目を休めることをおすすめします．\n(ここの画面で`!analyze daily`と入力すると今日の進捗，進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
+            userData.finishedFirstPrompt = true;
+        }
+        if (longTask !== false && userData.finishedFirstPrompt !== true) {
+            newUser.user.send("こんにちは！BonyAnalyzerです．長時間に渡る" + longTask + "お疲れ様でした...！ぜひここで今日の進捗を確認してみませんか？ここの画面で`!analyze daily`と入力すると，今日の進捗を確認できます．\n(進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
+            userData.finishedFirstPrompt = true;
+        }
         saveData(savedData);
+
     }
 })
 
