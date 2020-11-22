@@ -120,6 +120,9 @@ exports.dailyReport = (msg, command, savedData) => {
                 const artistsStr = musicCache.artists.map((artist) => {
                     return acc + artist.name + "(" + artist.songs.join(", ") + ")";
                 }).join(",\n");
+
+                const diffH = musicCache.end.diff(musicCache.start, "hours");
+                const diffM = musicCache.end.diff(musicCache.start, "minutes");
                 result.push({
                     name: `${musicCache.start.format("HH:mm")} 〜 ${musicCache.end.format("HH:mm")} (${diffH >= 1 ? diffH + "時間" : diffM + "分"})`,
                     value: "```Spotify\n" + artistsStr + "```",
