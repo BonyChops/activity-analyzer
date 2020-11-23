@@ -15,7 +15,7 @@ exports.weeklyTweet = (savedData, config) => {
             access_token_key: twInfo.access_token_key,
             access_token_secret: twInfo.access_token_secret
         });
-        const estimatedTimeM = savedData.personal.filter(data => data.id == user.discordId).activities
+        const estimatedTimeM = savedData.personal.find(data => data.id == user.discordId).activities
             .filter(activity => developToolName.some(name => activity.name.toLowerCase().indexOf(name.toLowerCase()) !== -1))
             .filter(activity => moment(activity.timestamps.start).diff(targetMoment, "days") < 7)
             .reduce((acc, activity) => {
