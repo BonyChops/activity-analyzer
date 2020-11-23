@@ -13,4 +13,4 @@ if(!data.personal.some(data => data.id == userId)){
     return;
 }
 
-console.log(JSON.stringify(JSON.stringify(data.personal.filter(data => data.id == userId), null, 4)));
+console.log(JSON.stringify(data.personal.filter(data => data.id == userId), null, 4));
