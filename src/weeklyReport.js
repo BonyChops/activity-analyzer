@@ -41,7 +41,7 @@ exports.weeklyReport = (msg, command, savedData) => {
         const name = activity.name;
         weeklyEstimatedTimes[startAt.diff(time, "days")].total += diffM;
         weeklyEstimatedTimes[7].total += diffM;
-        if(!weeklyEstimatedTimes[startAt.diff(time, "days")].titles.includes(name)){
+        if (!weeklyEstimatedTimes[startAt.diff(time, "days")].titles.includes(name)) {
             weeklyEstimatedTimes[startAt.diff(time, "days")].titles.push(name);
         }
         if (activity.type !== "CUSTOM_STATUS" && developToolName.some(name => activity.name.toLowerCase().indexOf(name.toLowerCase()) !== -1)) {
@@ -132,7 +132,7 @@ exports.weeklyReport = (msg, command, savedData) => {
         sendTo.send({
             embed: {
                 title: `ヒント:`,
-                description: `いまプレイしている${member.presence.activities.reduce(activity => {
+                description: `いまプレイしている${member.presence.activities.reduce((acc, activity)=> {
                     if(activity.timestamps !== null && activity.timestamps !== undefined){
                         acc.push(`**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`)
                     }

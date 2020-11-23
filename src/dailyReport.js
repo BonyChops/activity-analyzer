@@ -200,7 +200,7 @@ exports.dailyReport = (msg, command, savedData) => {
         sendTo.send({
             embed: {
                 title: `ヒント:`,
-                description: `いまプレイしている${member.presence.activities.reduce(activity => {
+                description: `いまプレイしている${member.presence.activities.reduce((acc, activity) => {
                     if(activity.timestamps !== null && activity.timestamps !== undefined){
                         acc.push(`**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`)
                     }

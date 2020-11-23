@@ -97,7 +97,7 @@ client.on('message', msg => {
             if (member.presence.activities.length > 0) {
                 try {
                     msg.reply(
-                        `${name}さん，その調子！いまプレイしている${member.presence.activities.reduce(activity => {
+                        `${name}さん，その調子！いまプレイしている${member.presence.activities.reduce((acc, activity) => {
                             if(activity.timestamps !== null && activity.timestamps !== undefined){
                                 acc.push(`**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`)
                             }
