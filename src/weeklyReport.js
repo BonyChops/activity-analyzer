@@ -21,7 +21,8 @@ exports.weeklyReport = (msg, command, savedData) => {
         develop: 0,
         listening: 0,
         streaming: 0,
-        gaming: 0
+        gaming: 0,
+        titles: []
     })
     const targetActivity = userData.activities.filter(activity => {
         const timestamps = activity.timestamps;
@@ -37,8 +38,12 @@ exports.weeklyReport = (msg, command, savedData) => {
         const startAt = moment(timestamps.start);
         const endAt = moment(timestamps.end);
         const diffM = endAt.diff(startAt, "minutes");
+        const name = activity.name;
         weeklyEstimatedTimes[startAt.diff(time, "days")].total += diffM;
         weeklyEstimatedTimes[7].total += diffM;
+        if(!weeklyEstimatedTimes[startAt.diff(time, "days")].name.includes(name)){
+            weeklyEstimatedTimes[startAt.diff(time, "days")].name.push(name);
+        }
         if (activity.type !== "CUSTOM_STATUS" && developToolName.some(name => activity.name.toLowerCase().indexOf(name.toLowerCase()) !== -1)) {
             weeklyEstimatedTimes[startAt.diff(time, "days")].develop += diffM;
             weeklyEstimatedTimes[7].develop += diffM;
@@ -66,13 +71,7 @@ exports.weeklyReport = (msg, command, savedData) => {
         if (activity.listening > 0) arr.push("**合計視聴時間**: " + (activity.listening > 60 ? (activity.listening / 60).toPrecision(3) + "時間" : activity.listening + "分"));
         if (activity.streaming > 0) arr.push("**合計配信時間**: " + (activity.streaming > 60 ? (activity.streaming / 60).toPrecision(3) + "時間" : activity.streaming + "分"));
         if (activity.gaming > 0) arr.push("**_ESTIMATED GAMING TIME_**: " + (activity.gaming > 60 ? (activity.gaming / 60).toPrecision(3) + "時間" : activity.gaming + "分"));
-        arr.push(`\`\`\` ${activity.reduce((acc, activity) => {
-            const name = activity.name;
-            if(!acc.includes(name)){
-                acc.push(name);
-            }
-            return acc;
-        }, []).join(", ")} \`\`\``);
+        arr.push(`\`\`\` ${activity.titles.join(", ")} \`\`\``);
         const value = arr.join(",\n");
         console.log(index);
         acc.push({
