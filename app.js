@@ -197,6 +197,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
                 console.log("found")
                 updateTarget = finActivity;
             }
+            console.log("Estimated Time(M): " + moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "minutes"));
         })
         /* if (prettyLongTask !== false) {
             const isDevelop = (developToolName.some(name => prettyLongTask.toLowerCase().indexOf(name.toLowerCase()) !== -1))
