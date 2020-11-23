@@ -139,7 +139,7 @@ client.on('message', msg => {
 
 client.on('presenceUpdate', async (oldUser, newUser) => {
     let finishedAct = oldUser.activities.filter(oldActivity => {
-        return !newUser.activities.some(newActivity => {
+        return oldActivity.timestamps !== null && !newUser.activities.some(newActivity => {
             //console.log(newActivity);
             return (
                 /* (
@@ -191,7 +191,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
             if (updateTarget === undefined) {
                 console.log(finActivity.applicationID);
                 console.log(finActivity.timestamps.start);
-                console.log("not found")
+                console.log("New Data")
                 userData.activities.push(finActivity);
             } else {
                 console.log("found")
