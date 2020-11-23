@@ -9,6 +9,7 @@ const weeklyReport = require('./src/weeklyReport').weeklyReport;
 const {
     start
 } = require("repl");
+const { on } = require("process");
 const config = JSON.parse(fs.readFileSync('./config.json'));
 const saveData = data => {
     fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
@@ -138,6 +139,7 @@ client.on('message', msg => {
 
 
 client.on('presenceUpdate', async (oldUser, newUser) => {
+    if(oldUser === undefined) return;
     let finishedAct = oldUser.activities.filter(oldActivity => {
         return oldActivity.timestamps !== null && !newUser.activities.some(newActivity => {
             //console.log(newActivity);
