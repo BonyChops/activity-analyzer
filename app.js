@@ -31,7 +31,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.author.id == client.user.id) return;
-    if(msg.content.indexOf("!analyze") === -1) return;
+    if (msg.content.indexOf("!analyze") === -1) return;
     const isDM = msg.channel.type === "dm";
     const isAdmin = !isDM && msg.guild.members.cache.find(member => member.id == msg.author.id).permissions.any("ADMINISTRATOR");
     const commandStr = msg.content.split(" ");
@@ -140,6 +140,7 @@ client.on('message', msg => {
 client.on('presenceUpdate', async (oldUser, newUser) => {
     let finishedAct = oldUser.activities.filter(oldActivity => {
         return !newUser.activities.some(newActivity => {
+            console.log(newActivity);
             return (
                 /* (
                     //VSCode
