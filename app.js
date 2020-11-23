@@ -177,8 +177,8 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
             console.log("User data not found. Created.");
         }
         let userData = savedData.personal.find(data => data.id == newUser.userID);
-        finishedAct.forEach(act => {
-            act.timestamps.end = moment().format();
+        finishedAct.forEach((act, i) => {
+            finishedAct[i].timestamps.end = moment().format();
         })
         //Array.prototype.push.apply(userData.activities, finishedAct);
         let longTask = false;
