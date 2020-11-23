@@ -41,8 +41,8 @@ exports.weeklyReport = (msg, command, savedData) => {
         const name = activity.name;
         weeklyEstimatedTimes[startAt.diff(time, "days")].total += diffM;
         weeklyEstimatedTimes[7].total += diffM;
-        if(!weeklyEstimatedTimes[startAt.diff(time, "days")].name.includes(name)){
-            weeklyEstimatedTimes[startAt.diff(time, "days")].name.push(name);
+        if(!weeklyEstimatedTimes[startAt.diff(time, "days")].titles.includes(name)){
+            weeklyEstimatedTimes[startAt.diff(time, "days")].titles.push(name);
         }
         if (activity.type !== "CUSTOM_STATUS" && developToolName.some(name => activity.name.toLowerCase().indexOf(name.toLowerCase()) !== -1)) {
             weeklyEstimatedTimes[startAt.diff(time, "days")].develop += diffM;
