@@ -2,7 +2,7 @@ const moment = require("moment/min/moment-with-locales");
 moment.locale('ja');
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const developToolName = ["Visual Studio", "Eclipse", "Jet Brains", "iTerm"];
+const developToolName = ["Visual Studio", "Eclipse", "JetBrains", "iTerm"];
 const fs = require('fs');
 const dailyReport = require('./src/dailyReport').dailyReport;
 const weeklyReport = require('./src/weeklyReport').weeklyReport;

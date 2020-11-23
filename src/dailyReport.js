@@ -36,7 +36,7 @@ exports.dailyReport = (msg, command, savedData) => {
         const diffM = endAt.diff(startAt, "minutes");
         return acc + diffM;
     }, 0);
-    const developToolName = ["Visual Studio", "Eclipse", "Jet Brains", "iTerm"];
+    const developToolName = ["Visual Studio", "Eclipse", "JetBrains", "iTerm"];
     const estimatedDevelopM = targetActivity.reduce((acc, activity) => {
         if (activity.type === "CUSTOM_STATUS") {
             return acc;

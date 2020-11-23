@@ -13,7 +13,7 @@ exports.weeklyReport = (msg, command, savedData) => {
         msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
         return;
     }
-    const developToolName = ["Visual Studio", "Eclipse", "Jet Brains", "iTerm"];
+    const developToolName = ["Visual Studio", "Eclipse", "JetBrains", "iTerm"];
     const userData = savedData.personal.find(data => data.id === user.id);
     let weeklyEstimatedTimes = [...Array(8).keys()];
     weeklyEstimatedTimes.forEach(part => weeklyEstimatedTimes[part] = {
