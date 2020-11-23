@@ -5,15 +5,9 @@ exports.dailyReport = (msg, command, savedData) => {
     const member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : undefined;
     const user = !isDM ? member.user : msg.author;
     const name = !isDM ? member.nickname !== null ? member.nickname : msg.guild.members.cache.find(member => member.id == command.user).user.username : msg.author.username;
-    let time;
-    try {
-        time = command.dates === undefined ? moment() : moment(command.dates);
-    } catch (error) {
-        console.error(error);
-        msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
-        return;
-    }
-    if (time == "Invalid date") {
+    const time = command.dates === undefined ? moment() : moment(command.dates);
+
+    if (!time.isValid()) {
         msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
         return;
     }

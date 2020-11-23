@@ -9,7 +9,7 @@ exports.weeklyReport = (msg, command, savedData) => {
     const time = command.dates === undefined ? moment().startOf('week') : moment(command.dates).startOf('week');
 
     console.log(command.dates)
-    if (time == "Invalid date") {
+    if (!time.isValid()) {
         msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
         return;
     }
