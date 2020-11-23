@@ -140,7 +140,7 @@ client.on('message', msg => {
 client.on('presenceUpdate', async (oldUser, newUser) => {
     let finishedAct = oldUser.activities.filter(oldActivity => {
         return !newUser.activities.some(newActivity => {
-            console.log(newActivity);
+            //console.log(newActivity);
             return (
                 /* (
                     //VSCode
@@ -150,8 +150,8 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
                     oldActivity.state.indexOf('No workspace.') === -1
                 ) || */
                 (
-                    oldActivity.timestamps !== undefined &&
-                    newActivity.timestamps !== undefined &&
+                    oldActivity.timestamps !== null &&
+                    newActivity.timestamps !== null &&
                     oldActivity.applicationID === newActivity.applicationID &&
                     moment(oldActivity.timestamps.start).isSame(newActivity.timestamps.start) &&
                     newActivity.type !== "CUSTOM_STATUS"
