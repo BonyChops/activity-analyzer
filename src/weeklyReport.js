@@ -133,7 +133,7 @@ exports.weeklyReport = (msg, command, savedData) => {
             embed: {
                 title: `ヒント:`,
                 description: `いまプレイしている${member.presence.activities.reduce(activity => {
-                    if(activity.timestamps !== null && activity.timestamps.start !== null){
+                    if(activity.timestamps !== null && activity.timestamps !== undefined){
                         acc.push(`**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`)
                     }
                     return acc;
