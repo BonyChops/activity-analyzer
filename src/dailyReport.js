@@ -94,7 +94,7 @@ exports.dailyReport = (msg, command, savedData) => {
                 name: `${musicCache.start.format("HH:mm")} 〜 ${musicCache.end.format("HH:mm")} (${diffH >= 1 ? diffH + "時間" : diffM + "分"})`,
                 value: "```\nSpotify "+musicCache.songs+"曲\n" + artistsStr + "```",
             });
-            console.log(musicCache);
+            //console.log(musicCache);
             musicCache = {};
         }
         if (field.name === "Spotify") {
@@ -177,7 +177,7 @@ exports.dailyReport = (msg, command, savedData) => {
             inline: true
         })
     }
-
+    console.log(estimatedTimeFields.concat(fields));
     sendTo.send({
         embed: {
             title: `${name}さんのデイリーレポート (${time.format("MM/DD")})`,
