@@ -25,7 +25,7 @@ exports.weeklyTweet = (savedData, config) => {
                 return acc;
             }, 0);
         const status = `今週(${targetMoment.format("MM/DD(ddd)")} 〜 ${targetMoment.endOf("week").format("MM/DD(ddd")})は${( estimatedTimeM >= 60 ? ((estimatedTimeM / 60).toPrecision(3) + "時間" ) : ( estimatedTimeM + "分" ))} 開発しました😎`
-            client.post('statuses/update', {
+        twitterClient.post('statuses/update', {
                 status
             })
             .then(function (tweet) {
