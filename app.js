@@ -225,7 +225,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
     }
 });
 
-cron.schedule('0 0 0 0 0', () => {
+cron.schedule('0 0 * * 0', () => {
     weeklyTweet(savedData, config);
 })
 
