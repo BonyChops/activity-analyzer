@@ -31,7 +31,6 @@ const token = config.token;
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(moment().format("YYYY-MM-DD"));
-    weeklyTweet(savedData, config);
 });
 
 client.on('message', msg => {
@@ -226,7 +225,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
 });
 
 cron.schedule('0 0 * * 0', () => {
-    weeklyTweet(savedData, config);
+    weeklyTweet(savedData);
 })
 
 client.login(token);
