@@ -31,6 +31,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.author.id == client.user.id) return;
+    if(msg.content.indexOf("!analyze") === -1) return;
     const isDM = msg.channel.type === "dm";
     const isAdmin = !isDM && msg.guild.members.cache.find(member => member.id == msg.author.id).permissions.any("ADMINISTRATOR");
     const commandStr = msg.content.split(" ");
