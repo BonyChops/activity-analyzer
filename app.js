@@ -149,8 +149,10 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
                     oldActivity.state.indexOf('No workspace.') === -1
                 ) || */
                 (
+                    oldActivity.timestamps !== undefined &&
                     oldActivity.applicationID === newActivity.applicationID &&
-                    moment(oldActivity.timestamps.start).isSame(newActivity.timestamps.start)
+                    moment(oldActivity.timestamps.start).isSame(newActivity.timestamps.start) &&
+                    newActivity.type !== "CUSTOM_STATUS"
                 )
             )
         })
