@@ -97,7 +97,12 @@ client.on('message', msg => {
             if (member.presence.activities.length > 0) {
                 try {
                     msg.reply(
-                        `${name}さん，その調子！いまプレイしている${member.presence.activities.map(activity => `**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`).join(", ")}はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
+                        `${name}さん，その調子！いまプレイしている${member.presence.activities.reduce(activity => {
+                            if(activity.timestamps !== null && activity.timestamps.start !== null){
+                                acc.push(`**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`)
+                            }
+                            return acc;
+                        }, []).join(", ")}はちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`
                     )
                 } catch (error) {
                     console.error(error);

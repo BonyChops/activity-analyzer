@@ -200,7 +200,12 @@ exports.dailyReport = (msg, command, savedData) => {
         sendTo.send({
             embed: {
                 title: `ヒント:`,
-                description: `いまプレイしている${member.presence.activities.map(activity => `**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`).join(", ")}もちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`,
+                description: `いまプレイしている${member.presence.activities.reduce(activity => {
+                    if(activity.timestamps !== null && activity.timestamps.start !== null){
+                        acc.push(`**${activity.name}**(__${moment(activity.timestamps.start).format("HH:mm")}__〜)`)
+                    }
+                    return acc;
+                }, []).join(", ")}もちゃんと記録されています！\n(終わり次第レポートに付け加えられます．)`,
                 color: "#006050",
                 timestamp: new Date()
             }
