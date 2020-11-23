@@ -1,5 +1,9 @@
 const moment = require("moment/min/moment-with-locales");
 moment.locale('ja');
+const config = JSON.parse(fs.readFileSync('./config.json'));
+const developToolName = config.developToolName;
+
+
 exports.dailyReport = (msg, command, savedData) => {
     const isDM = msg.channel.type === "dm";
     const member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : undefined;
@@ -30,7 +34,6 @@ exports.dailyReport = (msg, command, savedData) => {
         const diffM = endAt.diff(startAt, "minutes");
         return acc + diffM;
     }, 0);
-    const developToolName = ["Visual Studio", "Eclipse", "JetBrains", "iTerm"];
     const estimatedDevelopM = targetActivity.reduce((acc, activity) => {
         if (activity.type === "CUSTOM_STATUS") {
             return acc;

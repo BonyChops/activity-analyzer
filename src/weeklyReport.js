@@ -1,5 +1,8 @@
 const moment = require("moment/min/moment-with-locales");
 moment.locale('ja');
+const config = JSON.parse(fs.readFileSync('./config.json'));
+const developToolName = config.developToolName;
+
 exports.weeklyReport = (msg, command, savedData) => {
     const isDM = msg.channel.type === "dm";
     const member = !isDM ? msg.guild.members.cache.find(member => member.id == command.user) : undefined;
@@ -13,7 +16,6 @@ exports.weeklyReport = (msg, command, savedData) => {
         msg.reply("```エラー: " + command.dates + "は日時の指定として使えません．```");
         return;
     }
-    const developToolName = ["Visual Studio", "Eclipse", "JetBrains", "iTerm"];
     const userData = savedData.personal.find(data => data.id === user.id);
     let weeklyEstimatedTimes = [...Array(8).keys()];
     weeklyEstimatedTimes.forEach(part => weeklyEstimatedTimes[part] = {

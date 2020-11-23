@@ -1,16 +1,19 @@
 const moment = require("moment/min/moment-with-locales");
 moment.locale('ja');
+const cron = require("node-cron");
+const fs = require('fs');
+const config = JSON.parse(fs.readFileSync('./config.json'));
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const developToolName = ["Visual Studio", "Eclipse", "JetBrains", "iTerm"];
-const fs = require('fs');
 const dailyReport = require('./src/dailyReport').dailyReport;
 const weeklyReport = require('./src/weeklyReport').weeklyReport;
+const weeklyTweet = require('./src/weeklyTweet').weeklyTweet;
+const developToolName = config.developToolName;
+
 const {
     start
 } = require("repl");
 const { on } = require("process");
-const config = JSON.parse(fs.readFileSync('./config.json'));
 const saveData = data => {
     fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
 }
@@ -28,6 +31,7 @@ const token = config.token;
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(moment().format("YYYY-MM-DD"));
+    weeklyTweet(savedData, config);
 });
 
 client.on('message', msg => {
@@ -219,6 +223,10 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
         saveData(savedData);
 
     }
+});
+
+cron.schedule('0 0 0 0 0', () => {
+    weeklyTweet(savedData, config);
 })
 
 client.login(token);
