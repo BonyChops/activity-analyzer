@@ -1,6 +1,7 @@
 const Twitter = require("twitter");
 const moment = require("moment/min/moment-with-locales");
 moment.locale('ja');
+const fs = require('fs');
 const config = JSON.parse(fs.readFileSync('./config.json'));
 const developToolName = config.developToolName;
 
