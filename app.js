@@ -150,6 +150,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
                 ) || */
                 (
                     oldActivity.timestamps !== undefined &&
+                    newActivity.timestamps !== undefined &&
                     oldActivity.applicationID === newActivity.applicationID &&
                     moment(oldActivity.timestamps.start).isSame(newActivity.timestamps.start) &&
                     newActivity.type !== "CUSTOM_STATUS"
