@@ -66,7 +66,8 @@ exports.weeklyReport = (msg, command, savedData) => {
         if (activity.listening > 0) arr.push("**合計視聴時間**: " + (activity.listening > 60 ? (activity.listening / 60).toPrecision(3) + "時間" : activity.listening + "分"));
         if (activity.streaming > 0) arr.push("**合計配信時間**: " + (activity.streaming > 60 ? (activity.streaming / 60).toPrecision(3) + "時間" : activity.streaming + "分"));
         if (activity.gaming > 0) arr.push("**_ESTIMATED GAMING TIME_**: " + (activity.gaming > 60 ? (activity.gaming / 60).toPrecision(3) + "時間" : activity.gaming + "分"));
-        arr.push(`\`\`\` ${activity.name.reduce((acc, name) => {
+        arr.push(`\`\`\` ${activity.reduce((acc, activity) => {
+            const name = activity.name;
             if(!acc.includes(name)){
                 acc.push(name);
             }
