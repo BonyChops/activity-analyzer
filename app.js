@@ -206,7 +206,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
             }
             console.log("Estimated Time(M): " + moment(finActivity.timestamps.end).diff(finActivity.timestamps.start, "minutes"));
         })
-        if (prettyLongTask !== false) {
+/*         if (prettyLongTask !== false) {
             const isDevelop = (developToolName.some(name => prettyLongTask.toLowerCase().indexOf(name.toLowerCase()) !== -1))
             newUser.user.send("こんにちは！BonyAnalyzerです．超々長時間に渡る" + (isDevelop ? "開発" : prettyLongTask) + "，本当にお疲れ様です...\n長時間画面と向き合った後は，10分ぐらい目を休めることをおすすめします．\n(ここの画面で`!analyze daily`と入力すると今日の進捗，\n進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
             userData.finishedFirstPrompt = true;
@@ -215,7 +215,7 @@ client.on('presenceUpdate', async (oldUser, newUser) => {
         if (longTask !== false && userData.finishedFirstPrompt !== true) {
             newUser.user.send("こんにちは！BonyAnalyzerです．長時間に渡る" + longTask + "お疲れ様でした...！\nぜひここで今日の進捗を確認してみませんか？\nここの画面で`!analyze daily`と入力すると，今日の進捗を確認できます．\n(進捗を出し始めたのが昨日からの場合は，`!analyze daily " + moment().subtract(1, "day").format("YYYY-MM-DD") + "`で確認できますからね！)");
             userData.finishedFirstPrompt = true;
-        }
+        } */
         saveData(savedData);
 
     }
