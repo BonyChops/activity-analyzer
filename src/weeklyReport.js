@@ -32,7 +32,7 @@ exports.weeklyReport = (msg, command, savedData) => {
         const startAt = moment(timestamps.start);
         const endAt = moment(timestamps.end);
         return (
-            startAt.diff(time, "days") < 7 && startAt.diff(time, "days") <= 0
+            startAt.diff(time, "days") < 7 && startAt.diff(time, "days") >= 0
         )
     });
 
