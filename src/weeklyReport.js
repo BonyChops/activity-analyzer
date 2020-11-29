@@ -42,6 +42,7 @@ exports.weeklyReport = (msg, command, savedData) => {
         const endAt = moment(timestamps.end);
         const diffM = endAt.diff(startAt, "minutes");
         const name = activity.name;
+        console.log(startAt.diff(time, "days"));
         weeklyEstimatedTimes[startAt.diff(time, "days")].total += diffM;
         weeklyEstimatedTimes[7].total += diffM;
         if (!weeklyEstimatedTimes[startAt.diff(time, "days")].titles.includes(name)) {
